@@ -1,0 +1,33 @@
+// .middle {
+//     width: 100%;
+//     margin-top: 2rem;
+//     .secContainer {
+//         .grid {
+//             display: flex; /* Use flex to align items horizontally */
+//             justify-content: center;
+//             padding: 3rem;
+//             border-radius: 30px;
+//             background-color: rgb(209, 143, 165);
+//             margin: auto;
+//             gap: 2rem;
+
+//             .flex {
+//                 display: flex; /* Use flex for the inner container */
+//                 align-items: center; /* Vertically center items in each column */
+//                 gap: 0.5rem;
+
+//                 h1 {
+//                     font-size: medium;
+//                     font-weight: 700;
+//                     color: black;
+//                 }
+
+//                 p {
+//                     opacity: 0.8;
+//                     max-width: 80px;
+//                     margin: 0; /* Remove default margin from <p> */
+//                 }
+//             }
+//         }
+//     }
+// }

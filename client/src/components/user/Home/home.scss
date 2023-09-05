@@ -1,0 +1,84 @@
+// .Home {
+//     position: relative;
+//     width: 100vw; /* Use viewport width for responsiveness */
+//     height: 100vh; /* Use viewport height for responsiveness */
+//     top: 0;
+
+//     .videoBg {
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         width: 100%;
+//         height: 100%;
+//         overflow: hidden;
+
+//         video {
+//             width: 100%;
+//             height: auto; /* Maintain video's aspect ratio */
+//             min-width: 100vw; /* Use viewport width for video width on smaller screens */
+//             min-height: 100vh; /* Use viewport height for video height on smaller screens */
+//             object-fit: cover;
+           
+            
+//             /* Maintain aspect ratio and cover the container */
+//         }
+//     }
+
+//     .sectionText {
+//         position: absolute;
+//         top: 50%;
+//         left: 50%;
+//         color: aliceblue;
+//         transform: translate(-50%, -50%);
+//         text-align: center;
+
+//         h1 {
+//             font-size: 2rem;
+//             font-weight: 1000;
+//         }
+
+//         p {
+//             padding: 1rem 0;
+//             font-size: 1rem;
+//             font-weight: 500;
+//         }
+
+//         .btn {
+//             display: inline-block;
+//             padding: 0.5rem 1rem;
+//             font-size: 1rem;
+//             background-color: #333;
+//             color: white;
+//             border: none;
+//             cursor: pointer;
+//             transition: background-color 0.3s, transform 0.3s;
+//         }
+
+//         .btn:hover {
+//             background-color: orange;
+//             transform: scale(1.05);
+//         }
+//     }
+
+//     .popularPlaces {
+//         display: none;
+//     }
+
+//     /* Media Query for Responsive Design */
+//     @media (max-width: 768px) {
+//         .sectionText {
+//             h1 {
+//                 font-size: 1.5rem;
+//             }
+
+//             p {
+//                 font-size: 0.8rem;
+//             }
+
+//             .btn {
+//                 font-size: 0.8rem;
+//                 padding: 0.3rem 0.8rem;
+//             }
+//         }
+//     }
+// }

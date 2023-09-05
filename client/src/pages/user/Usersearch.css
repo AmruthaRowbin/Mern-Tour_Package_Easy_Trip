@@ -1,0 +1,13 @@
+/* Usersearch.css */
+.user-search-container {
+    /* Apply any necessary styles to the outer container */
+  }
+  
+  .content-wrapper {
+    margin: auto;
+    padding: 15px;
+    max-width: 1000px;
+    align-content: center;
+    /* Other styles you want to apply to the content wrapper */
+  }
+  

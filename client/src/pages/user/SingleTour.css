@@ -1,0 +1,26 @@
+/* SingleTour.css */
+.book-button-container {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin-top: 10px; /* Adjust margin as needed */
+}
+
+.book-button {
+    background-color: orange;
+    color: rgb(236, 22, 22);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 100%; /* Ensure the button doesn't exceed its container */
+    width: 100%; /* Take up the full width of its container */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+@media (min-width: 768px) {
+    /* Apply different padding for larger screens */
+    .book-button {
+        padding: 15px 30px;
+    }
+}

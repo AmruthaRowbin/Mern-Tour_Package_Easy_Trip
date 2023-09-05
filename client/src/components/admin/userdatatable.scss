@@ -1,0 +1,11 @@
+.dataGrid {
+    background: white;
+    padding: 40px;
+    margin-top: 120px;
+    
+
+    .MuiDataGrid-toolbarContainer {
+        flex-direction: row-reverse;
+    }
+
+}

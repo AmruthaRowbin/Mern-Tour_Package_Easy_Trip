@@ -1,0 +1,28 @@
+/* adminCategoryStyles.css */
+
+.addButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    margin-top: 100px;
+    margin-left: 50px;
+  }
+  
+  .addButton {
+    background-color: #e6d32e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .addButton:hover {
+    background-color: #e61c1c;
+  }
+  

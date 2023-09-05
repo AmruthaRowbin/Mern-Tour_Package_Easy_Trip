@@ -1,0 +1,32 @@
+.footer{
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+.footer.logo img {
+    max-width: 100%; /* Use max-width to ensure the image doesn't exceed its container */
+    height: auto;   /* Maintain the image's aspect ratio */
+    margin-bottom: 1rem;
+}
+.social_links span a{
+    text-decoration: none;
+    color: black;
+    font-size: 1.2rem;
+
+}
+
+.footer_link-title{
+    color: black;
+    margin-bottom: 1rem;
+}
+
+.footer_quick-links li a{
+    text-decoration: none;
+    color: black;
+    font-size: 1.1rem;
+
+}
+.footer_quick-links h6 span i{
+    color: orange;
+    
+}

@@ -1,0 +1,38 @@
+/* UserHome.css */
+.explore-header {
+    margin-top: 100px;
+    color: #ee0c0c;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 600px;
+  }
+  
+  .featured-header {
+    margin-top: 20px;
+    color: #df950b;
+    font-size: 32px;
+    font-weight: bold;
+    margin-left: 500px;
+  }
+  
+  .content-wrapper {
+    margin: auto;
+    padding: 15px;
+    max-width: 1000px;
+    text-align: center; /* Center-align the content horizontally */
+  }
+  
+  /* Vertically center align the content within content-wrapper */
+  .content-wrapper::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+  
+  /* Vertically center align the content within content-wrapper */
+  .content {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  

@@ -1,0 +1,112 @@
+// .destination {
+//     .secContainer {
+//       .redText {
+//         color: red;
+//         font-size: small;
+//         font-weight: 500;
+//       }
+
+     
+//       h3 {
+//         font-size: 1.7em;
+//       }
+  
+//       .searchField {
+//         margin-top: 2rem;
+//         gap: 1rem;
+//         display: flex; 
+  
+//         @media (max-width: 768px) {
+//            /* Stack inputs vertically on small screens */
+//         }
+  
+//         .inputField {
+//           background: rgb(240, 182, 211);
+//           padding: 1rem;
+//           border-radius: 20px;
+//           display: flex;
+//           align-items: center;
+//           gap: 0.5rem;
+  
+//           input {
+//             background: transparent;
+//             border: none;
+//             outline: none;
+//             flex: 1;
+//           }
+  
+//           .icon {
+//             color: black;
+//           }
+//         }
+  
+//         .btn {
+//           gap: 0.5rem;
+//           margin: auto;
+//           width: 100%;
+//           align-items: center;
+//           justify-content: center;
+//         }
+//       }
+  
+//       .secMenu {
+//         ul {
+//             display: flex;
+//             /* flex-direction: column; Remove this line */
+//             flex-wrap: wrap; /* Add this line to allow items to wrap */
+//             list-style: none;
+//             padding: 0;
+  
+//           li {
+//             font-weight: bold;
+//             color: black;
+//             padding: 0.5rem 0;
+  
+//             &.active {
+//               color: red;
+//             }
+//           }
+//         }
+//       }
+  
+//       .destinationContainer {
+//         .singleDestination {
+//           .imgDiv {
+//             position: relative;
+  
+//             img {
+//               width: 400px;
+//               height: 250px;
+//               border-radius: 10px;
+//             }
+  
+//             .descInfo {
+//               position: absolute;
+//               bottom: 0;
+//               left: 0;
+//               background-color: rgba(0, 0, 0, 0.7);
+//               color: white;
+//               padding: 0.5rem;
+//               border-bottom-left-radius: 10px;
+//               width: 100%;
+
+//               .text{
+//                 .name{
+//                     font-size: 1.2em;
+//                 font-weight: bold; 
+//                 }
+//                 p{
+//                     display: flex;
+//                     align-items: center;
+//                     .icon{
+//                         margin-right: 0.5rem;
+//                     }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+  

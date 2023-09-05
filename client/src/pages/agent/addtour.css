@@ -1,0 +1,11 @@
+/* Apply error styles to invalid fields */
+.is-invalid {
+    border-color: #dc3545;
+  }
+  
+  /* Style error message */
+  .invalid-feedback {
+    color: #dc3545;
+    font-size: 14px;
+  }
+  

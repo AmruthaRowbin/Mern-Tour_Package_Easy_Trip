@@ -1,0 +1,106 @@
+.hero_subtitle img{
+    width: 2.3rem;
+    height: 2.3rem;
+    margin-right: 10px;
+    margin-top: 50px; 
+}
+
+.hero_content h1{
+    font-size: 3.2rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    color: var(--heading-color);
+}
+
+.hero_content h1 .highlight{
+    color:orangered;
+}
+.hero_content p{
+    font-size: 1.1rem;
+    color:black ;
+    line-height: 2rem;
+}
+
+.hero_img_box img,
+.hero_img_box video{
+    width: 100%;
+    height: 350px;
+    border-radius: 20px;
+    border: 1px solid ;
+    object-fit: cover;
+    margin-top: 50px;
+}
+
+.hero_content{
+    padding-top: 3.5rem;
+}
+.hero_img_box{
+    padding-top: 2rem;
+}
+
+.services_col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .services_subtitle {
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: #ee6e6e;
+    font-style: italic; /* Add italic font style */
+  }
+  
+  .services_title {
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+
+  .featured_tour-title{
+    font-size:2.3rem;
+    font-weight: 500;
+  }
+
+  .experience_content h2{
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    font-weight: 500;
+
+  }
+  .experience_content p{
+    font-size: 1.1rem;
+    color: black;
+    margin-top: 1rem;
+  }
+
+  .counter_wrapper{
+    margin-top: 2.5rem;
+
+  }
+
+  .conter_box span{
+      width: 70px;
+      height: 70px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: orange;
+      color: aliceblue;
+      font-size: 1.6rem;
+      font-weight: 600;
+      border-radius: 10px 5px 10px 5px;
+  }
+
+  .conter_box h6{
+    font-size: 1.1rem;
+    margin-top: 0.7rem;
+    color:black;
+  }
+
+  .experience_img img{
+    width: 90%;
+  }
