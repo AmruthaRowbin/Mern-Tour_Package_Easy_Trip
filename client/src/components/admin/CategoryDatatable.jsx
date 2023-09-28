@@ -7,29 +7,54 @@ import { adminCategoryList, adminDeletecategory } from "../../redux/features/adm
 import { Link } from "react-router-dom";
 import "./categorydatatable.css";
 import './bookingdatatable.css';
+import { toast } from "react-toastify";
+import { confirmAlert } from 'react-confirm-alert'; // Import react-confirm-alert
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 export default function CategoryDatatable() {
     const dispatch = useDispatch();
-    const loading = useSelector((state) => state.admin.loading);
+   
     const categories = useSelector((state) => state.admin.categories);
+    
+    const deletecategory = useSelector((state) => state.admin.deletecategory);
+    const { loading, error } = useSelector((state) => ({ ...state.admin }))
 
     const [localCategories, setLocalCategories] = useState([]);
 
     useEffect(() => {
         dispatch(adminCategoryList());
-    }, []);
+    }, [deletecategory]);
 
     useEffect(() => {
         setLocalCategories(categories);
     }, [categories]);
+    
+    useEffect(()=>{
+        if(error){
+          toast.error(error,{autoClose:false})
+        }
+    }, [error]);
 
     const handleDelete = (_id) => {
-        if (window.confirm("Are you sure you want to delete the category?")) {
-            dispatch(adminDeletecategory(_id));
-            setLocalCategories((prevCategories) =>
-                prevCategories.filter((category) => category._id !== _id._id)
-            );
-        }
+        confirmAlert({
+            title: 'Confirm Deletion',
+            message: 'Are you sure you want to delete the category?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        dispatch(adminDeletecategory(_id));
+                        setLocalCategories((prevCategories) =>
+                            prevCategories.filter((category) => category._id !== _id._id)
+                        );
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => {}
+                }
+            ]
+        });
     };
 
     const columns = [

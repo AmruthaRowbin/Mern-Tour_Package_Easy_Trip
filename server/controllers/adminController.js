@@ -11,7 +11,7 @@ const Tour = require('../modelsss/tour')
 const Category = require('../modelsss/category')
 const Order = require('../modelsss/order');
 const Slot = require('../modelsss/slot');
-
+const moment = require('moment');
 
 
 
@@ -72,7 +72,7 @@ exports.getUsers = async (req, res) => {
     res.json(userData)
 }
 
-exports.getAgents = async (req, res) => {
+exports.getAgent = async (req, res) => {
     const agentData = await Agent.find()
     res.json(agentData)
 }
@@ -177,53 +177,6 @@ exports.unBlockAgent = async (req, res, next) => {
 
 
 
-// exports.deleteCategory = async (req, res) => {
-//     const { id } = req.params;
-//     console.log(id); // Access the id parameter from the URL
-
-//     try {
-
-
-//         const category = await Category.findByIdAndDelete(
-//             id,
-//             { deleted: true }, // Set the 'deleted' field to true for soft delete
-//             { new: true } // Get the updated category after the update
-//         );
-
-//         if (!category) {
-//             return res.status(404).json({ message: `No category found with id: ${id}` });
-//         }
-
-//         res.json({ message: 'Category soft deleted successfully' });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Something went wrong' });
-//     }
-// };
-
-
-
-// exports.deletePackage = async (req, res) => {
-//     const { id } = req.params;
-//     console.log(id); // Access the id parameter from the URL
-
-//     try {
-
-
-//         const tour = await Tour.findByIdAndDelete(
-//             id,
-//             { deleted: true }, // Set the 'deleted' field to true for soft delete
-//             { new: true } // Get the updated category after the update
-//         );
-
-//         if (!tour) {
-//             return res.status(404).json({ message: `No package found with id: ${id}` });
-//         }
-
-//         res.json({ message: 'package soft deleted successfully' });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Something went wrong' });
-//     }
-// };
 
 
 
@@ -260,11 +213,11 @@ exports.deleteCategory = async (req, res) => {
             { new: true } // Get the updated package after the update
         );
 
-        if (! category) {
+        if (!category) {
             return res.status(404).json({ message: `No  category found with id: ${id}` });
         }
 
-        res.json({ message:  'category soft deleted successfully' });
+        res.json({ message: 'category soft deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong' });
     }
@@ -273,44 +226,44 @@ exports.deleteCategory = async (req, res) => {
 
 
 exports.approveAgent = async (req, res) => {
-  const {email} = req.body;
+    const { email } = req.body;
 
-  try {
-    const agent = await Agent.findOne({email});
-    if (!agent) {
-      return res.status(404).json({ message: 'Agent not found' });
+    try {
+        const agent = await Agent.findOne({ email });
+        if (!agent) {
+            return res.status(404).json({ message: 'Agent not found' });
+        }
+
+        agent.approved = true;
+        await agent.save();
+
+        res.status(200).json({ message: 'Agent approved successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong' });
     }
-
-    agent.approved = true;
-    await agent.save();
-
-    res.status(200).json({ message: 'Agent approved successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Something went wrong' });
-  }
 };
 
 
-exports.notapproveAgent= async (req, res) => {
-    const {email} = req.body;
-  
+exports.notapproveAgent = async (req, res) => {
+    const { email } = req.body;
+
     try {
-      const agent = await Agent.findOne({email});
-      if (!agent) {
-        return res.status(404).json({ message: 'Agent not found' });
-      }
-  
-      agent.approved = false;
-      await agent.save();
-  
-      res.status(200).json({ message: 'Agent approval status set to Not Approved' });
+        const agent = await Agent.findOne({ email });
+        if (!agent) {
+            return res.status(404).json({ message: 'Agent not found' });
+        }
+
+        agent.approved = false;
+        await agent.save();
+
+        res.status(200).json({ message: 'Agent approval status set to Not Approved' });
     } catch (error) {
-      res.status(500).json({ message: 'Something went wrong' });
+        res.status(500).json({ message: 'Something went wrong' });
     }
-  };
+};
 
 
-  exports.allOrders = async (req, res, next) => {
+exports.allOrders = async (req, res, next) => {
     try {
         const allBookings = await Order.find().populate({
             path: 'place',
@@ -329,7 +282,9 @@ exports.bookingStatus = async (req, res, next) => {
         const { id, status } = req.body;
         console.log(id, status);
         const orderDeatials = await Order.findById(id);
+        const amt = parseInt(orderDeatials.total);
         const no = parseInt(orderDeatials.guestno);
+        const userID = orderDeatials.owner.toString();
         const formattedBookinoutDate = orderDeatials.bookin.toISOString().split('T')[0];
 
         if (status == 'Pending') {
@@ -338,6 +293,8 @@ exports.bookingStatus = async (req, res, next) => {
 
         if (status == 'Cancelled') {
             await Slot.findOneAndUpdate({ place: orderDeatials.place, bookin: formattedBookinoutDate }, { $inc: { count: - no } });
+            const user = await Users.findByIdAndUpdate(userID, { $inc: { wallet: amt } }, { new: true });
+
         }
 
         if (status == 'Success') {
@@ -355,3 +312,126 @@ exports.bookingStatus = async (req, res, next) => {
         next(err);
     }
 }
+
+
+
+exports.getCounts = async (req, res, next) => {
+    try {
+        const userCount = await Users.countDocuments();
+        res.status(200).json(userCount);
+        console.log(userCount, 'wwwwwwwwwwwwwwwww')
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+exports.getAgents = async (req, res, next) => {
+    try {
+        const agentCount = await Agent.countDocuments();
+        res.status(200).json(agentCount);
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+exports.getOrdercount = async (req, res, next) => {
+    try {
+        const successOrPendingOrderCount = await Order.countDocuments({
+            $or: [{ deliverystatus: 'Success' }, { deliverystatus: 'Pending' }, { deliverystatus: 'Cancelled' }]
+        });
+        res.status(200).json(successOrPendingOrderCount);
+    }
+    catch (err) {
+        next(err);
+    }
+}
+
+
+exports.getEarnings = async (req, res, next) => {
+    try {
+        const pipeline = [
+
+            {
+                $group: {
+                    _id: null,
+                    totalSum: { $sum: "$total" }
+                }
+            }
+        ];
+
+        const result = await Order.aggregate(pipeline);
+
+        if (result.length > 0) {
+            const totalSum = result[0].totalSum;
+            res.status(200).json(totalSum);
+        } else {
+            res.status(200).json({ totalSum: 0 });
+        }
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+exports.getPieDeatails = async (req, res, next) => {
+    try {
+        const pipeline = [
+            {
+                $group: {
+                    _id: "$deliverystatus",
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const statusCounts = await Order.aggregate(pipeline);
+
+        const formattedResult = statusCounts.map(status => ({
+            name: status._id,
+            value: status.count
+        }));
+
+        if (statusCounts) {
+            res.status(200).json(formattedResult);
+        }
+    }
+    catch (err) {
+        next(err);
+    }
+}
+
+
+
+exports.getSalesReport = async (req, res, next) => {
+    try {
+        const orders = await Order.find();
+
+        function getMonthFromDate(date) {
+            const parsedDate = new Date(date);
+            return parsedDate.getMonth();
+        }
+
+        // Initialize the monthlySales array with 12 objects
+        const monthlySales = Array.from({ length: 12 }, (_, monthIndex) => {
+            return {
+                name: moment().month(monthIndex).format('MMM'),
+                value: 0,
+            };
+        });
+
+        // Calculate monthly sales by iterating through orders
+        orders.forEach((order) => {
+            const monthIndex = getMonthFromDate(order.createdAt);
+
+            // Ensure that monthlySales[monthIndex] exists before updating it
+            if (monthlySales[monthIndex]) {
+                monthlySales[monthIndex].value += order.total;
+            }
+        });
+
+        res.json(monthlySales);
+    } catch (err) {
+        next(err);
+    }
+};

@@ -3,6 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { orderdetailes } from "../../redux/features/orderSlice";
 import './success.css';
+
 export default function Success() {
     const { search } = useLocation();
     const params = new URLSearchParams(search);
@@ -13,25 +14,24 @@ export default function Success() {
     console.log(payment_intent)
 
     useEffect(() => {
-   
-
-       
-         
-                dispatch(orderdetailes({ payment_intent }));
-          
-            
-
-       
+        dispatch(orderdetailes({ payment_intent }));
     }, [dispatch, user]);
+
+    const goToBookings = () => {
+        // Navigate to the bookings page here, replace 'bookings' with the actual URL path
+        setRedirect('/bookings');
+    };
 
     if (redirect) {
         return <Navigate to={redirect} />;
     }
 
     return (
-        <div className="payment-success">
-  Payment Successful
-</div>
-
+        <div className="success-box">
+            Payment Successful
+            <div className="button-container">
+                <button onClick={goToBookings}>Go to Bookings</button>
+            </div>
+        </div>
     )
 }

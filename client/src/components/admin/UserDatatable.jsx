@@ -16,7 +16,7 @@ import { adminBlockUser, adminUnblockuser, fetchAdminUsers } from '../../redux/f
 function UserDatatable() {
   const [blockStatus, setBlockStatus] = useState(JSON.parse(localStorage.getItem('blockStatus')) || {});
 
-
+  const { loading, error } = useSelector((state) => ({ ...state.booking }))
 
   const { users } = useSelector((state) => ({ ...state.admin }));
   const dispatch = useDispatch();
@@ -31,6 +31,12 @@ function UserDatatable() {
   useEffect(() => {
     localStorage.setItem('blockStatus', JSON.stringify(blockStatus));
   }, [blockStatus]);
+
+  useEffect(()=>{
+    if(error){
+      toast.error(error,{autoClose:false})
+    }
+  })
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },

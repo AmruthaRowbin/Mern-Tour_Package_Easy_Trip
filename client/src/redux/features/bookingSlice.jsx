@@ -122,11 +122,67 @@ export const getslots= createAsyncThunk("booking/getslots", async ({id}, { rejec
 // })
 
 
+
+export const getTourbybooking = createAsyncThunk("booking/getTourbybooking", async (agentId, { rejectWithValue }) => {
+    try {
+        const response = await api.getTourbybooking(agentId)
+        const packageWithIds = response.data.map(( agentbookings , index) => ({
+            ... agentbookings,
+            id: index + 1,
+            // date: format(new Date(booking.bookin), 'yyyy-MM-dd'),
+            
+        }));
+
+       
+        return packageWithIds;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+export const getWallet= createAsyncThunk("booking/getWallet", async (_, { rejectWithValue }) => {
+    try {
+        console.log('waletwaletwaletwaletwaletwaletwaletwaletwaletwaletwaletwalet')
+        const response = await api.getWallet( )
+      
+
+     console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
+ 
+        return response.data
+        
+
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+
+
+export const getwalletcash= createAsyncThunk("booking/ getwalletcash", async ({ id}, { rejectWithValue }) => {
+    try {
+        const response = await api.getwalletcash(id)
+
+     console.log(response.data,"ssssssssssss")
+ 
+        return response.data
+        
+
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
 const bookingSlice= createSlice({
     name: 'booking',
     initialState: {
         booking : {},
         bookings : [],
+        cancelbookings:[],
+        agentbookings : [],
+        wallets : [],
     
         error : "",
         loading: false,
@@ -154,7 +210,7 @@ const bookingSlice= createSlice({
         },
         [bookingDetailes.fulfilled]: (state, action) => {
             state.loading = false
-            localStorage.setItem("bookingdetailes", JSON.stringify({ ...action.payload }))
+          
             //  state.bookings.push(action.payload);
             state.booking = action.payload
 
@@ -163,6 +219,7 @@ const bookingSlice= createSlice({
         },
         [bookingDetailes.rejected]: (state, action) => {
             state.loading = false
+            state.error = action.payload.message
          
         },
 
@@ -180,6 +237,7 @@ const bookingSlice= createSlice({
         },
         [payment.rejected]: (state, action) => {
             state.loading = false
+            state.error = action.payload.message
          
         },
 
@@ -197,6 +255,7 @@ const bookingSlice= createSlice({
         },
         [getBookings.rejected]: (state, action) => {
             state.loading = false
+            state.error = action.payload.message
          
         },
         [cancelbookings.pending]: (state, action) => {
@@ -206,13 +265,14 @@ const bookingSlice= createSlice({
             state.loading = false
             localStorage.setItem("cancelbookingdetailes", JSON.stringify({ ...action.payload }))
              //state.bookings.push(action.payload);
-             state.bookings = action.payload
+             state.cancelbookings = action.payload
 
 
 
         },
         [cancelbookings.rejected]: (state, action) => {
             state.loading = false
+            state.error = action.payload.message
          
         },
         [getslots.pending]: (state, action) => {
@@ -229,8 +289,67 @@ const bookingSlice= createSlice({
         },
         [getslots.rejected]: (state, action) => {
             state.loading = false
+            state.error = action.payload.message
          
         },
+
+
+        [getTourbybooking.pending]: (state, action) => {
+            state.loading = true
+        },
+        [getTourbybooking.fulfilled]: (state, action) => {
+            state.loading = false
+            // state.agentTours.push(action.payload);
+          
+            state.agentbookings = action.payload
+            // console.log(agentbooking,"22222222222222222222222222222222222222222")
+
+
+
+
+        },
+        [getTourbybooking.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+
+
+        [getWallet.pending]: (state, action) => {
+            state.loading = true
+        },
+        [getWallet.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("wallet", JSON.stringify({ ...action.payload }))
+             state.wallets.push(action.payload);
+          
+
+
+        },
+        [getWallet.rejected]: (state, action) => {
+            state.loading = false
+         
+        },
+
+
+        [getwalletcash.pending]: (state, action) => {
+            state.loading = true
+        },
+        [getwalletcash.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("paymentdetailes", JSON.stringify({ ...action.payload }))
+             //state.bookings.push(action.payload);
+             state.wallets = action.payload
+
+
+
+        },
+        [getwalletcash.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+         
+        },
+
 
       
     }

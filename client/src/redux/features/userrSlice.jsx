@@ -28,6 +28,18 @@ export const userregister = createAsyncThunk("userr/register", async ({ formValu
 })
 
 
+export const googleregister = createAsyncThunk("userr/googleregister", async ({ userdata, navigate, toast }, { rejectWithValue }) => {
+    try {
+        const response = await api.googleregister(userdata)
+        toast.success("Register Successfully")
+        navigate("/")
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data)
+    }
+})
+
+
 
 export const getUserdetailes= createAsyncThunk("userr/getUserdetailes", async ({  navigate, toast }, { rejectWithValue }) => {
     try {
@@ -41,10 +53,58 @@ export const getUserdetailes= createAsyncThunk("userr/getUserdetailes", async ({
 })
 
 
+export const userAgents= createAsyncThunk("userr/userAgents", async (_, { rejectWithValue }) => {
+    try {
+        const response = await api.userAgents()
+      
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data)
+    }
+})
+
+
+
+
+export const userMessages= createAsyncThunk("userr/ userMessages", async ({ user1Id,user2Id}, { rejectWithValue }) => {
+    try {
+        const response = await api.userMessages(user1Id,user2Id)
+
+     console.log(response.data,"ssssssssssss")
+ 
+     
+
+        return response.data
+        
+
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+
+
+export const userCretaemessage = createAsyncThunk("userr/userCretaemessage", async (messageData, { rejectWithValue }) => {
+    try {
+        console.log(messageData,"xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        const response = await api.userCretaemessage(messageData)
+       
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data)
+    }
+})
+
+
+
+
 export const updateUser= createAsyncThunk("userr/updateUser", async ({ formData, navigate, toast }, { rejectWithValue }) => {
     try {
+        console.log( formData,"ttttttttttttttt")
         const response = await api.updateUser(formData)
-        toast.success("Register Successfully")
+        toast.success("updated successfully")
+        console.log("mmmmmmmmmmmmm")
         navigate("/")
         return response.data
     } catch (err) {
@@ -55,9 +115,11 @@ export const updateUser= createAsyncThunk("userr/updateUser", async ({ formData,
 
 export const updatePassword= createAsyncThunk("userr/updatePassword", async ({ formData, navigate, toast }, { rejectWithValue }) => {
     try {
+        console.log( formData,"ttttttttttttttt")
         const response = await api.updatePassword(formData)
-        toast.success("Register Successfully")
+        toast.success("updated successfully")
         navigate("/")
+        console.log("mmmmmmmmmmmmm")
         return response.data
     } catch (err) {
         return rejectWithValue(err.response.data)
@@ -73,7 +135,11 @@ const userrSlice = createSlice({
     initialState: {
         user: null,
         error: "",
+        updateuser:[],
         loading: false,
+        agents:[],
+        messages:[],
+        usermessage:[],
     },
 
 
@@ -147,15 +213,13 @@ const userrSlice = createSlice({
         [ updateUser.fulfilled]: (state, action) => {
             state.loading = false
             localStorage.setItem("userprofileupdate", JSON.stringify({ ...action.payload }))
-            console.log('kkkkkkkkkkkkkkkkk')
-            console.log(action.payload)
-            console.log('xsc')
-            state.user = action.payload
+           
+            state.updateuser = action.payload
 
         },
         [ updateUser.rejected]: (state, action) => {
             state.loading = false
-            state.error = action.payload.message
+            state.error = action.payload
         },
 
         [ updatePassword.pending]: (state, action) => {
@@ -174,6 +238,76 @@ const userrSlice = createSlice({
             state.loading = false
             state.error = action.payload.message
         },
+
+
+
+        [googleregister.pending]: (state, action) => {
+            state.loading = true 
+        },
+        [googleregister.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("userprofile", JSON.stringify({ ...action.payload }))
+            console.log('kkkkkkkkkkkkkkkkk')
+            console.log(action.payload)
+            console.log('xsc')
+            state.user = action.payload
+
+        },
+        [googleregister.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+
+        [ userAgents.pending]: (state, action) => {
+            state.loading = true 
+        },
+        [ userAgents.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("agentlist", JSON.stringify({ ...action.payload }))
+            console.log('kkkkkkkkkkkkkkkkk')
+            console.log(action.payload)
+            console.log('xsc')
+            state.agents = action.payload
+
+        },
+        [ userAgents.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+        [ userMessages.pending]: (state, action) => {
+            state.loading = true 
+        },
+        [ userMessages.fulfilled]: (state, action) => {
+            state.loading = false
+       
+            state.messages = action.payload
+
+        },
+        [ userMessages.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
+        [userCretaemessage.pending]: (state, action) => {
+            state.loading = true 
+        },
+        [userCretaemessage.fulfilled]: (state, action) => {
+            state.loading = false
+       
+            state.usermessage = action.payload
+
+        },
+        [ userCretaemessage.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
+
+
+
+
     }
 
 

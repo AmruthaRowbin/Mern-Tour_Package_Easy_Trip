@@ -22,6 +22,13 @@ const authuser = async (req, res, next) => {
     if (isCustomAuth) {
       decodedData = jwt.verify(usertoken, jwtSecret);
       req.userId = decodedData?.id;
+
+      // Check if the user is blocked by the admin
+      const user = await Users.findById(req.userId);
+
+      if (!user || !user.status) {
+        return res.status(403).json({ message: 'User is blocked by the admin. Please contact support.' });
+      }
     } else {
       decodedData = jwt.decode(usertoken);
       const googleId = decodedData?.sub.toString();

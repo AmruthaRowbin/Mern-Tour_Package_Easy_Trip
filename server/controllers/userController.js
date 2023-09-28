@@ -17,6 +17,9 @@ const Category = require('../modelsss/category')
 
 const Slot = require('../modelsss/slot');
 const Review = require('../modelsss/review');
+const Agent = require('../modelsss/agent')
+const Message = require('../modelsss/message');
+const Conversation = require('../modelsss/conversation');
 
 const Stripe = require("stripe");
 
@@ -44,6 +47,35 @@ exports.userRegister = async (req, res) => {
 
 
 
+exports.googleRegister = async (req, res, next) => {
+    try {
+        const { name, email } = req.body;
+    
+
+        const  UserDoc = await Users.findOne({ email });
+
+        if ( UserDoc) {
+            const usertoken = jwt.sign({ email: UserDoc.email, id: UserDoc._id }, jwtSecret, { expiresIn: "1d" })
+            res.status(201).json({ UserDoc, usertoken })
+        } else {
+            const UserDoc = await Users.create({
+                name,
+                email,
+            });
+
+            if (UserDoc) {
+                const usertoken = jwt.sign({ email: UserDoc.email, id: UserDoc._id }, jwtSecret, { expiresIn: "1d" })
+        res.status(201).json({ UserDoc, usertoken })
+            }
+            else {
+                res.status(422).json({ error: 'User registration failed', message: e.message });
+            }
+        }
+    }
+    catch (err) {
+        next(err);
+    }
+}
 
 
 
@@ -102,7 +134,7 @@ exports.listTours = async (req, res) => {
         const limit=6
         const startIndex=(Number(page)-1)*limit
         const total=await Tour.countDocuments({})
-        const tours=await Tour.find().limit(limit).skip(startIndex)
+        const tours=await Tour.find().limit(limit).skip(startIndex).sort({ _id: -1 })
         res.json({
             data: tours,
             currentPage: Number(page),
@@ -144,7 +176,8 @@ exports.getToursbySearch = async (req, res) => {
 
 exports.bookPackage = async (req, res, next) => {
     try {
-        const { bookin, guestno, name, email, phone, place, price, owner } = req.body;
+        const { bookin, guestno, name, email, phone, place, price, owner, 
+            creator } = req.body;
 
         const slotDoc = await Slot.find({ place: place, bookin: bookin });
         if (slotDoc) {
@@ -181,7 +214,8 @@ exports.bookPackage = async (req, res, next) => {
         }
 
         const booking = await Booking.create({
-            bookin, guestno, name, email, phone, place, price, owner
+            bookin, guestno, name, email, phone, place, price, owner, 
+            creator
         });
 
         res.status(200).json(booking);
@@ -261,6 +295,8 @@ exports.createOrder = async (req, res, next) => {
 
         const orderdoc = await Order.create({
             owner: bookingDoc.owner,
+            
+           creator:bookingDoc.creator,
             bookin: bookingDoc.bookin,
             guestno: bookingDoc.guestno,
             name: bookingDoc.name,
@@ -273,7 +309,7 @@ exports.createOrder = async (req, res, next) => {
         
         })
         console.log("paymentIntent"+paymentIntent.client_secret)
-        res.status(200).send({ clientSecret: paymentIntent.client_secret })
+        res.status(200).send({ clientSecret: paymentIntent.client_secret,orderdoc:orderdoc })
         
     }
     catch (err) {
@@ -317,7 +353,7 @@ exports.updateCodOrder = async (req, res, next) => {
         console.log("lll");
         const { id } = req.params;
         const bookingDoc = await Booking.findById(id);
-        const userDoc = await User.findById(req.userId);
+        const userDoc = await Users.findById(req.userId);
         const bookinDate = new Date(bookingDoc.bookin);
         const bookinoutDate = new Date(bookinDate.getTime() + 2 * 24 * 60 * 60 * 1000);
 
@@ -332,7 +368,7 @@ exports.updateCodOrder = async (req, res, next) => {
         console.log(slotDetails, "slotDetails");
 
         if ((bookingDoc.price * bookingDoc.guestno) > userDoc.wallet) {
-            return next(createError(400, "Insuffiecient Wallet Balance"));
+            return res.status(404).json({ error: 'insuffient balance' });
         }
 
         if (slotDetails.length > 0) {
@@ -538,9 +574,11 @@ exports.getUserDetails = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
     try {
+        console.log("rrrrrrrrr")
         const { name, email, number } = req.body;
         const userDoc = await Users.findByIdAndUpdate(req.userId, { $set: { name: name, email: email, number: number } });
         res.status(200).json(userDoc);
+        console.log(userDoc)
     }
     catch (err) {
         next(err);
@@ -550,6 +588,7 @@ exports.updateUser = async (req, res, next) => {
 
 exports.updateUserPaaword = async (req, res, next) => {
     try {
+        console.log("qqqqqqqqqqq")
         const { oldpassword, newpassword, confirmpassword } = req.body;
 
         if (!oldpassword || !newpassword || !confirmpassword) {
@@ -582,4 +621,104 @@ exports.updateUserPaaword = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+}
+
+
+
+exports.getToursbyTag = async (req, res) => {
+    const { tag } = req.params
+    console.log('qqqqqqqqqqqq')
+    try {
+        console.log('vvvvvvvvvvvvvvvvvvvbgfhvv')
+       const tours=await Tour.find({tags :{ $in: tag}})
+        res.json(tours)
+        console.log(tours)
+    } catch (error) {
+        console.log(error)
+        res.status(404).json({ message: "something went wrongcbchbgfhgfnghjghjjghj" })
+    }
+}
+
+
+
+
+exports.getRelatedTours = async (req, res) => {
+    const  tags  = req.body
+    console.log('qqqqqqqqqqqq')
+    try {
+        console.log('vvvvvvvvvvvvvvvvvvvbgfhvv')
+       const tours=await Tour.find({tags :{ $in: tags}})
+        res.json(tours)
+        console.log(tours)
+    } catch (error) {
+        console.log(error)
+        res.status(404).json({ message: "something went wrongcbchbgfhgfnghjghjjghj" })
+    }
+}
+
+
+
+
+exports.getWalletBalance = async (req, res, next) => {
+    console.log('kkkkkkkkkkkkkkkkkkkkkk')
+    try {
+        const userDoc = await Users.findById(req.userId);
+        res.status(200).json(userDoc)
+        console.log(userDoc,"sdasafsafasfasfasfasf")
+    }
+    catch (err) {
+        next(err);
+    }
+}
+
+
+
+
+
+
+
+exports.createMessage  = async(req,res)=>{
+
+  try{
+    const {from, to, message}=req.body
+    const newMessage =await Message.create({
+        message:message,
+        Chatusers:[from , to],
+        Sender:from
+    })
+    return res.status(200).json(newMessage)
+  } catch (error){
+    return res.status(500).json("internal error")
+  }
+
+}
+
+exports.getMessage=async(req,res)=>{
+    try{
+        const from = req.params.user1Id;
+        const to =req.params.user2Id
+        const newMessage=await Message.find({
+            Chatusers:{
+                $all:[from,to],
+            }
+        }).sort({updatedAt:1})
+        const allmessage = newMessage.map((msg)=>{
+            return{
+                myself:msg.Sender.toString() === from,
+                message : msg.message
+            }
+        })
+        console.log(allmessage,"allmessageallmessageallmessage")
+        return res.status(200).json(allmessage)
+       
+    } catch (error) {
+
+        return res.status(500).json("internal server")
+    }
+}
+
+
+exports.getAgentss = async (req, res) => {
+    const agentData = await Agent.find()
+    res.json(agentData)
 }

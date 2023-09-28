@@ -49,6 +49,17 @@ import BookingList from './pages/user/BookingList'
 import Usercategory from './pages/user/Usercategory'
 import BookingDatatable from './components/admin/BookingDtatatable'
 import Updateprofile from './components/user/Updateprofile'
+import Tagtours from './pages/user/Tagtours'
+import Agentbooking from './components/agent/agentbooking'
+import Wallet from './pages/user/Wallet'
+import Agentdashboard from './pages/agent/Agentdashboard'
+import Admindashboard from './pages/admin/Home/Admindashboard'
+import Userchat from './pages/user/Userchat'
+import AgentChat from './pages/agent/AgentChat'
+import Chat from './pages/user/Chat'
+import Chatt from './pages/agent/Chatt'
+import Agentprofileupdation from './pages/agent/Agentprofileupdation'
+
 
 
 
@@ -79,68 +90,85 @@ function App() {
         <Routes>
 
           <Route path='/agent' element={<AgentLayout />}>
-          <Route index element={<AgentHome/>}/>
+            <Route index element={<Agentdashboard />} />
             <Route path='/agent/Home' element={<AgentHome />} />
-            
+
 
             <Route path='/agent/login' element={<AgentLogin />} />
             <Route path='/agent/register' element={<AgentRegister />} />
-            <Route 
-            path='/agent/addTour'
-             element={
-               <PrivateRoute>
-                <AddTour />
-                </PrivateRoute>
-              } 
-              />
             <Route
-             path='/agent/editTour/:id'
+              path='/agent/addTour'
               element={
-              <PrivateRoute>
-                <AddTour />
+                <PrivateRoute>
+                  <AddTour />
                 </PrivateRoute>
-              } 
-              />
-            <Route 
-            path='/agent/dashboard'
-             element={
-             <PrivateRoute>
-              <Dashboard/>
-              </PrivateRoute>
-            }
+              }
             />
-              <Route path='/agent/tour/:id' element={<AgentSingleTour/>}/>
-          <Route path="*" element={<NotFound/>}/>
+            <Route
+              path='/agent/editTour/:id'
+              element={
+                <PrivateRoute>
+                  <AddTour />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path='/agent/dashboard'
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path='/agent/bookings'
+              element={
+                <PrivateRoute>
+                  <Agentbooking />
+                </PrivateRoute>
+              }
+            />
+            <Route path='/agent/chat' element={<Chatt />} />
+            <Route path='/agent/profile' element={<Agentprofileupdation/>}/>
+            
+            <Route path='/agent/tour/:id' element={<AgentSingleTour />} />
+            <Route path="*" element={<NotFound />} />
 
           </Route>
 
 
-      
- 
 
 
-         
+
+
+
           <Route path='/login' element={<UserLogin />} />
-         
-          <Route path='/' element={<UserLayout/>}>
-            <Route index element={<Home/>}/>
-            <Route path='/tour/:id' element={<SingleTour/>}/>
-          
-      
-          <Route path='/tours/search' element={<Usersearch/>}/>
+          <Route path="*" element={<NotFound />} />
+
+          <Route path='/' element={<UserLayout />}>
+            <Route index element={<Home />} />
+            <Route path='/tour/:id' element={<SingleTour />} />
+
+
+            <Route path='/tours/search' element={<Usersearch />} />
             <Route path='/userHome' element={<UserHome />} />
             <Route path='/register' element={<UserRegister />} />
-            <Route path='/payment/:id'element={<Payment/>}/>
-            <Route path='/success' element={<Success/>}/>
-            <Route path='/bookings' element={<BookingList/>}/>
+            <Route path='/payment/:id' element={<Payment />} />
+            <Route path='/success' element={<Success />} />
+            <Route path='/bookings' element={<BookingList />} />
+            <Route path='/contact' element={<Chat />} />
 
-            <Route path='/tours/searchcategory' element={<Usercategory/>}/>
-            <Route path='/profile' element={<Updateprofile/>}/>
-   
 
-      
-            
-          
+            <Route path='/tours/searchcategory' element={<Usercategory />} />
+            <Route path='/profile' element={<Updateprofile />} />
+            <Route path='/wallet' element={<Wallet />} />
+            <Route path='/tag/:tag' element={<Tagtours />} />
+
+
+
+
+
 
 
 
@@ -152,31 +180,16 @@ function App() {
 
 
           <Route path='/adminpanel' element={<AdminLayout />}>
-            <Route path='/adminpanel/users' element={<UserDatatable/>}/>
-            <Route path='/adminpanel/agent' element={<AgentDatatable/>}/>
-            <Route path="/adminpanel/category" element={<CategoryDatatable/>}/>
-            <Route path="/adminpanel/category/new" element={<AddCategory/>}/>
-            <Route path="/adminpanel/packages" element={<PackageDatatable/>}/>
-            <Route path='/adminpanel/bookings' element={<BookingDatatable/>}/>
-
-
-
-
-
-
-
-
-
-
-
+            <Route index element={<Admindashboard />} />
+            <Route path='/adminpanel/users' element={<UserDatatable />} />
+            <Route path='/adminpanel/agent' element={<AgentDatatable />} />
+            <Route path="/adminpanel/category" element={<CategoryDatatable />} />
+            <Route path="/adminpanel/category/new" element={<AddCategory />} />
+            <Route path="/adminpanel/packages" element={<PackageDatatable />} />
+            <Route path='/adminpanel/bookings' element={<BookingDatatable />} />
+            <Route path="/adminpanel/dashboard" element={<Admindashboard />} />
 
           </Route>
-
-
-
-
-
-
         </Routes>
 
       </div>

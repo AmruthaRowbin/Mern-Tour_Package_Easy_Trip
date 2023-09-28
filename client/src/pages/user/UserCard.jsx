@@ -1,11 +1,12 @@
 import React from 'react';
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBCardGroup } from 'mdb-react-ui-kit';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBCardGroup,MDBBtn } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom'
 
 
 const UserCard = ({ imageFile, description, title, tags, _id, name, city, price }) => {
 
-
+    const navigate=useNavigate()
      const excerpt=(str)=>{
         if(str.length>45){
             str=str.substring(0, 45) + "....";
@@ -24,8 +25,8 @@ const UserCard = ({ imageFile, description, title, tags, _id, name, city, price 
                 />
                 <div className='top-left'>{name}</div>
                 <div className='text-start tag-card'>
-                    {tags.map((item, index) => (
-                        <span key={index}>#{item} </span>
+                    {tags.map((tag) => (
+                       <Link to={`/tag/${tag}`}> #{tag}</Link>
                     ))}
                 </div>
                 <MDBCardBody>
@@ -34,9 +35,12 @@ const UserCard = ({ imageFile, description, title, tags, _id, name, city, price 
                     <MDBCardTitle className='text-start'>{price}/person</MDBCardTitle>
                     <MDBCardText className='text-start'>
                         {excerpt(description)}{' '}
-                        <Link to={`/tour/${_id}`}>
-                            Read More
-                        </Link>
+                        
+                        
+                        <MDBBtn size='sm' rounded color='danger' onClick={()=>navigate(`/tour/${_id}`)}>
+                             Read More
+                            </MDBBtn>
+
                     </MDBCardText>
                 </MDBCardBody>
             </MDBCard>

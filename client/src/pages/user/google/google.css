@@ -1,0 +1,28 @@
+.google-signin-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border: none;
+    background-color:red;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .google-signin-button:hover {
+    background-color:orangered;
+  }
+  
+  .google-icon-wrapper {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+  /* Optional: Adjust button width to fit your design */
+  /* .google-signin-button {
+    width: 200px;
+  } */
+  

@@ -13,7 +13,7 @@ export default function BookingDatatable() {
 
    
   
-    const { bookings } = useSelector((state) => ({ ...state.admin }));
+    const { bookings ,bookingstatus} = useSelector((state) => ({ ...state.admin }));
     
     console.log(bookings,"bokkingshhhhhhhhhhhhhhhhhhhhhhhhhhhhhwqeqweriuriqwrjoqwlkdmasdmlasmf,12344")
 
@@ -21,7 +21,7 @@ export default function BookingDatatable() {
 
     useEffect(() => {
         dispatch(adminBooking())
-    }, []);
+    }, [dispatch,bookingstatus]);
 
 
     function makeRequest(id, status) {

@@ -15,6 +15,7 @@ import { setLogout } from '../../redux/features/authSlice';
 
 const AgentHeader = () => {
     const [show, setShow] = useState(false);
+    const [showFullUserName, setShowFullUserName] = useState(false);
     const dispatch = useDispatch()
 
     const handleLogout = () => {
@@ -25,6 +26,12 @@ const AgentHeader = () => {
     console.log('agent', agent)
     const agentName = agent?.result?.name;
     console.log("Agent Name:", agentName);
+
+
+
+  const toggleUserNameDisplay = () => {
+    setShowFullUserName(!showFullUserName);
+  };
 
 
     return (
@@ -38,9 +45,7 @@ const AgentHeader = () => {
                 </MDBNavbarToggler>
                 <MDBCollapse show={show} navbar>
                     <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
-                        {agent?.result?._id && (
-                            <h5 style={{ marginRight: "30px", marginTop: "17px" }}>Logged in as :{agentName}</h5>
-                        )}
+                       
                         <MDBNavbarItem>
                             <MDBNavbarLink href='/agent/Home'>
                                 <p className='header-text'>Home</p>
@@ -60,12 +65,74 @@ const AgentHeader = () => {
                                         <p className='header-text'>Dashboard</p>
                                     </MDBNavbarLink>
                                 </MDBNavbarItem>
+                                <MDBNavbarItem>
+                                    <MDBNavbarLink href='/agent/bookings'>
+                                        <p className='header-text'>MyBookings</p>
+                                    </MDBNavbarLink>
+                                </MDBNavbarItem>
+                                <MDBNavbarItem>
+                                <MDBNavbarLink href='/agent/chat'>
+                                        <p className='header-text'>Chat</p>
+                                    </MDBNavbarLink>
+                                </MDBNavbarItem>
+
 
                                 <MDBNavbarItem>
                                     <MDBNavbarLink href='/agent/login'>
                                         <p className='header-text' onClick={handleLogout}>Logout</p>
                                     </MDBNavbarLink>
                                 </MDBNavbarItem>
+
+                                {agent?.result?._id && (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={toggleUserNameDisplay}
+  >
+
+
+<div
+        style={{
+          width: '40px',
+          height: '40px',
+          backgroundColor: '#606080',
+          borderRadius: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: '#fff',
+          fontWeight: 'bold',
+          fontSize: '18px',
+        }}
+      >
+        {agentName?.charAt(0)}
+      </div>
+
+      {showFullUserName && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '100%',
+            right: '0',
+            backgroundColor: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            padding: '10px',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <p>Logged in as: {agentName}</p>
+          <p>
+            <a href="/agent/profile">Profile</a>
+          </p>
+        </div>
+      )}
+    </div>
+  )}
                             </>
                         ) : (
                             <MDBNavbarItem>

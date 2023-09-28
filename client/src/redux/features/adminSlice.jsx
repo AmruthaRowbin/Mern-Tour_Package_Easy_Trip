@@ -87,7 +87,7 @@ export const adminCategoryList = createAsyncThunk("admin/adminCategoryList", asy
 });
 
 
-export const   adminBlockUser= createAsyncThunk("admin/ adminBlockUser", async ({ email}, { rejectWithValue }) => {
+export const   adminBlockUser= createAsyncThunk("admin/ adminBlockUser", async ({ email,toast}, { rejectWithValue }) => {
     try {
         
         const response = await api.adminBlockUser(email)
@@ -99,7 +99,7 @@ export const   adminBlockUser= createAsyncThunk("admin/ adminBlockUser", async (
     }
 })
 
-export const   adminUnblockuser= createAsyncThunk("admin/ adminUnblockuser", async ({ email}, { rejectWithValue }) => {
+export const   adminUnblockuser= createAsyncThunk("admin/ adminUnblockuser", async ({ email,toast}, { rejectWithValue }) => {
     try {
         
         const response = await api.adminUnblockuser(email)
@@ -113,7 +113,7 @@ export const   adminUnblockuser= createAsyncThunk("admin/ adminUnblockuser", asy
 
 
 
-export const    adminBlockagent= createAsyncThunk("admin/  adminBlockagent", async ({ email}, { rejectWithValue }) => {
+export const    adminBlockagent= createAsyncThunk("admin/  adminBlockagent", async ({ email,toast}, { rejectWithValue }) => {
     try {
         
         const response = await api. adminBlockagent(email)
@@ -126,10 +126,10 @@ export const    adminBlockagent= createAsyncThunk("admin/  adminBlockagent", asy
 })
 
 
-export const   adminUnBlockagent= createAsyncThunk("admin/  adminUnBlockagent", async ({ email}, { rejectWithValue }) => {
+export const   adminUnBlockagent= createAsyncThunk("admin/  adminUnBlockagent", async ({ email,toast}, { rejectWithValue }) => {
     try {
         
-        const response = await api. adminUnBlockagent(email)
+        const response = await api. adminUnBlockagent(email,toast)
         toast.success("UnBlocked Successfully")
         navigate("/adminpanel/users")
         return response.data
@@ -173,16 +173,16 @@ export const adminApprovalagent = createAsyncThunk("admin/adminApprovalagent", a
     }
 })
 
-// export const adminNotApprovalagent= createAsyncThunk("admin/adminNotApprovalagent", async ({email,toast}, { rejectWithValue }) => {
-//     try {
-//         console.log(email)
-//         const response = await api.adminNotApprovalagent(email)
-//         toast.success("agent not  approved successfully")
-//         return response.data
-//     } catch (err) {
-//         return rejectWithValue(err.response.data);
-//     }
-// })
+export const adminNotApprovalagent= createAsyncThunk("admin/adminNotApprovalagent", async ({email,toast}, { rejectWithValue }) => {
+    try {
+        console.log(email)
+        const response = await api.adminNotApprovalagent(email)
+        toast.success("agent rejected successfully")
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
 
 
 
@@ -218,6 +218,86 @@ export const adminBookingstatus = createAsyncThunk("admin/adminBookingstatus", a
 })
 
 
+export const admingetUserCount= createAsyncThunk("admin/admingetUserCount", async (_, { rejectWithValue }) => {
+    try {
+        console.log("user444444444444444444444444")
+        const response = await api.admingetUserCount()
+        console.log("countuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+        
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+export const admingetAgentCount= createAsyncThunk("admin/admingetAgentCount", async (_, { rejectWithValue }) => {
+    try {
+        console.log("user444444444444444444444444")
+        const response = await api.admingetAgentCount()
+        console.log("countuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+        
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+export const admingetOrderCount= createAsyncThunk("admin/admingetOrderCount", async (_, { rejectWithValue }) => {
+    try {
+        console.log("user444444444444444444444444")
+        const response = await api.admingetOrderCount()
+        console.log("countuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+        
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+export const admingetTotalearnings= createAsyncThunk("admin/admingetTotalearnings", async (_, { rejectWithValue }) => {
+    try {
+        console.log("user444444444444444444444444")
+        const response = await api.admingetTotalearnings()
+        console.log("countuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+        
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+export const adminsalesReport= createAsyncThunk("admin/adminsalesReport", async (_, { rejectWithValue }) => {
+    try {
+        console.log("user444444444444444444444444")
+        const response = await api.adminsalesReport()
+        console.log("countuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+        
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+export const adminspiecahrt= createAsyncThunk("admin/adminspiecahrt", async (_, { rejectWithValue }) => {
+    try {
+        console.log("pipipipippipipipipip")
+        const response = await api.adminspiecahrt()
+        console.log("countuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu")
+        
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+
+
+
+
 
 
 const adminSlice = createSlice({
@@ -226,10 +306,20 @@ const adminSlice = createSlice({
         users: [],
         agents: [],
         tours:[],
+        deletecategory:[],
+        bookingstatus:[],
         categories:[],
         agentTours:[],
         bookings:[],
+        usercount: [],
+        ordercount:[],
+        agentcount:[],
+        salesreport:[],
+        piecahrt:[],
+        totalearnings:[],
         approvalStatus: {} ,
+        notapprovalStatus: {} ,
+
         bookingstatus:{},
       
         admin: null,
@@ -298,7 +388,7 @@ const adminSlice = createSlice({
         },
         [fetchAdminAgents.rejected]: (state, action) => {
             state.loading = false
-            state.error = action.payload.message
+           
         },
 
 
@@ -355,6 +445,8 @@ const adminSlice = createSlice({
         },
         [adminBlockUser.rejected]: (state, action) => {
             state.loading = false;
+            state.error = action.payload.message
+
            
           },
 
@@ -398,6 +490,7 @@ const adminSlice = createSlice({
         },
         [ adminBlockagent.rejected]: (state, action) => {
             state.loading = false;
+            state.error = action.payload.message
            
           },
 
@@ -415,6 +508,7 @@ const adminSlice = createSlice({
         },
         [ adminUnBlockagent.rejected]: (state, action) => {
             state.loading = false;
+            state.error = action.payload.message
            
           },
 
@@ -427,16 +521,16 @@ const adminSlice = createSlice({
             console.log("action",action)
             const deletedId = action.payload;
 
-            state.categories = state.categories.filter((item) => item._id !== deletedId);
+            state. deletecategory = state.categories.filter((item) => item._id !== deletedId);
           
-            state.categories = state.categories.filter((item) => item._id !== deletedId);
+            state. deletecategory= state.categories.filter((item) => item._id !== deletedId);
             state.error = null;
 
 
         },
         [ adminDeletecategory .rejected]: (state, action) => {
             state.loading = false
-            state.error = action.payload.message
+            state.error = action.payload
         },
 
 
@@ -459,6 +553,7 @@ const adminSlice = createSlice({
         },
         [adminDeletePackage .rejected]: (state, action) => {
             state.loading = false
+            state.error = action.payload.message
            
         },
 
@@ -484,22 +579,26 @@ const adminSlice = createSlice({
         },
 
 
-        // [adminNotApprovalagent.pending]: (state, action) => {
-        //     state.loading = true
-        // },
-        // [adminNotApprovalagent.fulfilled]: (state, action) => {
-        //     state.loading = false
-        //     localStorage.setItem("getagentNotapprovedprofile", JSON.stringify({ ...action.payload }))
+        [adminNotApprovalagent.pending]: (state, action) => {
+            state.loading = true
+        },
+        [adminNotApprovalagent.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("getagentNotapprovedprofile", JSON.stringify({ ...action.payload }))
 
-        //     console.log(action.payload)
+            console.log(action.payload)
 
-        //     state.agents = action.payload
-
-        // },
-        // [adminNotApprovalagent.rejected]: (state, action) => {
-        //     state.loading = false
-        //     state.error = action.payload.message
-        // },
+            const updatedAgents = state.agents.map((agent) =>
+    agent.email === action.payload.email
+      ? { ...agent, approved: false } // Update the approved status
+      : agent
+  );
+  state.agents = updatedAgents;
+        },
+        [adminNotApprovalagent.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
 
 
         [ adminBooking.pending]: (state, action) => {
@@ -535,6 +634,109 @@ const adminSlice = createSlice({
             state.loading = false
             state.error = action.payload.message
         },
+
+        [admingetUserCount.pending]: (state, action) => {
+            state.loading = true
+        },
+        [admingetUserCount.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("adminusercount", JSON.stringify({ ...action.payload }))
+
+            console.log(action.payload)
+
+            state.usercount = action.payload
+
+        },
+        [admingetUserCount.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+        [admingetAgentCount.pending]: (state, action) => {
+            state.loading = true
+        },
+        [admingetAgentCount.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("adminusercount", JSON.stringify({ ...action.payload }))
+
+            console.log(action.payload)
+
+            state.agentcount = action.payload
+
+        },
+        [admingetAgentCount.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+        [admingetOrderCount.pending]: (state, action) => {
+            state.loading = true
+        },
+        [admingetOrderCount.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("adminusercount", JSON.stringify({ ...action.payload }))
+
+            console.log(action.payload)
+
+            state.ordercount = action.payload
+
+        },
+        [admingetOrderCount.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+
+        [admingetTotalearnings.pending]: (state, action) => {
+            state.loading = true
+        },
+        [admingetTotalearnings.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("adminusercount", JSON.stringify({ ...action.payload }))
+
+            console.log(action.payload)
+
+            state.totalearnings = action.payload
+
+        },
+        [admingetTotalearnings.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+        [adminsalesReport.pending]: (state, action) => {
+            state.loading = true
+        },
+        [adminsalesReport.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("adminusercount", JSON.stringify({ ...action.payload }))
+
+            console.log(action.payload)
+
+            state.salesreport = action.payload
+
+        },
+        [adminsalesReport.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+        [adminspiecahrt.pending]: (state, action) => {
+            state.loading = true
+        },
+        [adminspiecahrt.fulfilled]: (state, action) => {
+            state.loading = false
+            localStorage.setItem("adminusercount", JSON.stringify({ ...action.payload }))
+
+            console.log(action.payload)
+
+            state.piecahrt = action.payload
+
+        },
+        [adminspiecahrt.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
 
 
 

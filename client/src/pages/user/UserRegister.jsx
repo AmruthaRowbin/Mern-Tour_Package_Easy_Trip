@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { userregister } from '../../redux/features/userrSlice'
+import GoogleLogin from './google/GoogleLogin'
 
 
 
@@ -13,6 +14,7 @@ const initialState = {
     firstname: "",
     lastname: "",
     email: "",
+    number: "",
     password: "",
     confirmPassword: ""
 }
@@ -20,7 +22,7 @@ const initialState = {
 const UserRegister = () => {
     const [formValue, setFormValue] = useState(initialState)
     const { loading, error } = useSelector((state) => ({ ...state.userr }))
-    const { email, password, firstname, lastname, confirmPassword } = formValue
+    const { email, password, firstname, lastname, confirmPassword, number } = formValue
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -35,7 +37,7 @@ const UserRegister = () => {
         if (password !== confirmPassword) {
             return toast.error("password should match")
         }
-        if (email && password && firstname && lastname && confirmPassword) {
+        if (email && password && firstname && lastname && confirmPassword && number) {
             dispatch(userregister({ formValue, navigate, toast }))
         }
 
@@ -132,9 +134,24 @@ const UserRegister = () => {
                                 />
                             </MDBValidationItem>
                         </div>
+                        <div className='col-md-12'>
+                            <MDBValidationItem feedback="please enter your password" invalid>
+                                <MDBInput
+                                    label="contact number"
+                                    type="number"
+                                    value={number}
+                                    name="number"
+                                    onChange={onInputChange}
+                                    required
 
+                                    validation="please provide your password"
+
+                                />
+                            </MDBValidationItem>
+                        </div>
+<GoogleLogin/>
                         <div className='col-12'>
-                            <MDBBtn style={{ width: "100%" }} className='mt-2'>
+                            <MDBBtn style={{ width: "100%", backgroundColor: "orangered", color: "#fff" }} className='mt-2'>
                                 Register
 
 

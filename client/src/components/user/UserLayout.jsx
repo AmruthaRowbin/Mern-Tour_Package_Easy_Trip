@@ -20,7 +20,7 @@ const UserLayout = () => {
   
       <Outlet />
       
-      <Footer/>
+   
 
     </div>
   )

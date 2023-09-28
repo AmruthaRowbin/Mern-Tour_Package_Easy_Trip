@@ -5,6 +5,8 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    creator:{ type: mongoose.Schema.Types.ObjectId, ref: 'Agent' },
+
     place: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour' },
     guestno: { type: Number, required: true },
     price: { type: Number, required: true },
@@ -13,7 +15,7 @@ const orderSchema = new mongoose.Schema({
     phone: { type: String, required: true },
     email: { type: String, required: true },
     total: { type: Number, required: true },
-    payment_intent: { type: String, required: true },
+    payment_intent: { type: String },
     ordermethod: { type: String },
     orderstatus: { type: String },
     deliverystatus: { type: String },

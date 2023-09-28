@@ -70,12 +70,32 @@ const AddTour = () => {
 
     const validateImage = () => {
         const isValid = !!tourData.imageFile;
+
+        // Check if the selected file is an image
+        if (isValid) {
+            const imageFileExtension = tourData.imageFile.split(';')[0].split('/')[1];
+            if (!['jpeg', 'jpg', 'png', 'gif'].includes(imageFileExtension.toLowerCase())) {
+                setValidation((prevState) => ({
+                    ...prevState,
+                    imageFile: true // Set imageFile validation to true if it's not an image
+                }));
+                return false;
+            }
+        } else {
+            setValidation((prevState) => ({
+                ...prevState,
+                imageFile: true // Set imageFile validation to true if no file is selected
+            }));
+            return false;
+        }
+
         setValidation((prevState) => ({
             ...prevState,
-            imageFile: !isValid
+            imageFile: false // Reset imageFile validation to false if it's a valid image
         }));
-        return isValid;
+        return true;
     };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -154,7 +174,7 @@ const AddTour = () => {
 
             <MDBCard alignment='center'>
                 <h5>{id ? "Update Tour" : "Add Tour"}</h5>
-                <MDBCardBody>
+                <MDBCardBody >
                     <MDBValidation onSubmit={handleSubmit} className='row g-3' noValidate>
                         <div className='col-md-12'>
                             <MDBValidationItem feedback="please enter the title" invalid>
@@ -318,7 +338,7 @@ const AddTour = () => {
                         )}
 
                         {validation.imageFile && (
-                            <div className='text-danger'>Please select an image.</div>
+                             <div className='text-danger'>Please select a valid image (jpeg, jpg, png, gif).</div>
                         )}
                         <div className='col-12'>
                             <MDBBtn style={{ width: "100%" }}>{id ? "Update" : "Submit"}</MDBBtn>

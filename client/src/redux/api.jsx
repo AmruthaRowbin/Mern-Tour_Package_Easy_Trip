@@ -19,6 +19,14 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("adminprofile")) {
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem("adminprofile")).usertoken
+      }`;
+  }
+  return req;
+});
+
 
 
 
@@ -32,12 +40,33 @@ export const editTours=(updatedTourData ,id)=>API.patch(`/agent/edittour/${id}`,
 export const getSingleTour=(id)=>API.get(`/agent/${id}`)
 export const getCategory=()=>API.get('/agent/getcategory')
 
+export const getTourbybooking=(agentId)=>API.get(`/agent/agentBookings/${agentId}`)
+
+
+export const AgentUsers = () => API.post('/agent/getusers')
+
+export const AgentMessages = (user1Id, user2Id) => API.post(`/agent/usermsg/${user1Id}/${user2Id}`);
+
+export const AgentCretaemessage=(messageData)=>API.post('/agent/msge',messageData)
+
+export const updateAgents=(formData)=>API.post('/agent/updateagent',formData)
+
+
+
+export const updateAgentPassword=(formData)=>API.post('/agent/agentupdatepassword',formData)
+
+
+
+
+
 
 
 
 export const usersignIn = (formData) => API.post("/login", formData)
 
 export const userregister = (formData) => API.post("/register", formData)
+
+export const googleregister =(userdata)=>API.post('/googleregister',userdata)
 
 export const ListTours = (page ) => API.get(`/createtour?page=${page}`)
 
@@ -77,8 +106,20 @@ export const updateUser=(formData)=>API.post('/updateuser',formData)
 export const updatePassword=(formData)=>API.post('/updatepassword',formData)
 
 
+export const getToursBytag=(tag)=>API.get(`/tag/${tag}`)
+
+export const getrelatedTours=(tags)=>API.post('/relatedtours',tags)
+
+export const getWallet=()=>API.post('/getwallet')
+
+export const getwalletcash=(id)=>API.post(`/codorder/${id}`)
+
+export const userAgents = () => API.post('/getagents')
 
 
+export const userMessages = (user1Id, user2Id) => API.post(`/msg/${user1Id}/${user2Id}`);
+
+export const userCretaemessage=(messageData)=>API.post('/msg',messageData)
 
 export const adminlogin = (formData) => API.post("/admin/login", formData)
 
@@ -119,6 +160,26 @@ export const adminBooking=()=>API.get('/admin/allorders')
 
 
 export const adminBookingstatus=({id,status})=>API.patch('/admin/bookingStatus',{id,status})
+
+export const admingetUserCount=()=>API.get('/admin/getusercounts')
+
+export const admingetAgentCount=()=>API.get('/admin/getagentcounts')
+
+
+export const admingetOrderCount=()=>API.get('/admin/getordercount')
+
+export const admingetTotalearnings=()=>API.get('/admin/getearnings')
+
+export const adminsalesReport=()=>API.get('/admin/salesreport')
+
+export const adminspiecahrt=()=>API.get('/admin/getpiedetails')
+
+
+
+
+
+
+
 
 
 

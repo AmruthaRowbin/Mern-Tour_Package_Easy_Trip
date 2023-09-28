@@ -132,13 +132,40 @@ export const getToursBySearchcategory = createAsyncThunk("tour/getToursBySearchc
 
 
 
+
+export const  getToursBytag= createAsyncThunk("tour/ getToursBytag", async (tag, { rejectWithValue }) => {
+    try {
+        const response = await api. getToursBytag(tag)
+      
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+export const  getrelatedTours= createAsyncThunk("tour/ getrelatedTours", async (tags, { rejectWithValue }) => {
+    try {
+        const response = await api. getrelatedTours(tags)
+      
+        return response.data
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
+
+
+
+
 const tourSlice = createSlice({
     name: 'tour',
     initialState: {
         tour: {},
         tours: [],
         agentTours: [],
+        tagTours:[],
         categories:[],
+        relatedtours: [],
         currentPage: 1,
         numberOfPages: null,
         error: "",
@@ -362,6 +389,43 @@ const tourSlice = createSlice({
 
         },
         [getToursBySearchcategory.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+        [ getToursBytag.pending]: (state, action) => {
+            state.loading = true
+        },
+        [ getToursBytag.fulfilled]: (state, action) => {
+            state.loading = false
+            // state.tours.push(action.payload);
+
+            state.tagTours = action.payload
+
+
+
+
+        },
+        [ getToursBytag.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+
+
+        [ getrelatedTours.pending]: (state, action) => {
+            state.loading = true
+        },
+        [ getrelatedTours.fulfilled]: (state, action) => {
+            state.loading = false
+            // state.tours.push(action.payload);
+
+            state.relatedtours = action.payload
+
+
+
+
+        },
+        [getrelatedTours.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload.message
         },

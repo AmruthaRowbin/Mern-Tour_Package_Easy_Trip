@@ -4,6 +4,8 @@ const bookingSchema = new mongoose.Schema({
     place: { type: mongoose.Schema.Types.ObjectId, ref: 'Tour', required: true },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     
+creator:{ type: mongoose.Schema.Types.ObjectId, ref: 'Agent' },
+    
     guestno: { type: Number, required: true },
     price: { type: Number, required: true },
     bookin: { type: Date, required: true },

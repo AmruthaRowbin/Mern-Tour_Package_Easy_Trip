@@ -12,6 +12,7 @@ import {
 } from 'mdb-react-ui-kit';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLogout } from '../../redux/features/userrSlice';
+import decode from 'jwt-decode';
 
 
 
@@ -19,6 +20,7 @@ const UserHeader = () => {
 
   const [show, setShow] = useState(false);
   const [showFullUserName, setShowFullUserName] = useState(false); // New state variable
+  const user = useSelector((state) => state.userr.user);
   const dispatch = useDispatch();
 
 
@@ -26,8 +28,28 @@ const UserHeader = () => {
   const handleLogout = () => {
     dispatch(setLogout());
   };
-  const user = useSelector((state) => state.userr.user);
-  const userName = user?.result?.name;
+  
+  const userName = user?.UserDoc?.name || user?.result?.name;
+
+
+console.log(userName,"3333333333333333333333333333333333333333333333333333333333333")
+
+  console.log(user,"useruseruserkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+
+
+
+//  const token=user?.usertoken;
+//  if(usertoken){
+//   const decodedToken = decode(token)
+//   if(decodedToken.exp * 1000 < new Date().getTime()){
+//     dispatch(setLogout())
+//   }
+//  }
+
+
+
+
+
 
   const toggleUserNameDisplay = () => {
     setShowFullUserName(!showFullUserName);
@@ -52,7 +74,7 @@ const UserHeader = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
 
-            {user?.result?._id ? (
+            {user?.result?._id || user?.UserDoc?._id  ? (
               <>
                 <MDBNavbarItem>
                   <MDBNavbarLink href='/bookings'>
@@ -71,7 +93,7 @@ const UserHeader = () => {
                     <p className='header-text' onClick={handleLogout}>Logout</p>
                   </MDBNavbarLink>
                 </MDBNavbarItem>
-                {user?.result?._id && (
+                {user?.result?._id || user?.UserDoc?._id ? (
   <div
     style={{
       display: 'flex',
@@ -81,46 +103,96 @@ const UserHeader = () => {
     }}
     onClick={toggleUserNameDisplay}
   >
-
-
-<div
+    <div
+      style={{
+        width: '40px',
+        height: '40px',
+        backgroundColor: '#606080',
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: '18px',
+      }}
+    >
+      {userName?.charAt(0)}
+    </div>
+    {showFullUserName && (
+      <div
         style={{
-          width: '40px',
-          height: '40px',
-          backgroundColor: '#606080',
-          borderRadius: '50%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          color: '#fff',
-          fontWeight: 'bold',
-          fontSize: '18px',
+          position: 'absolute',
+          top: '100%',
+          right: '0',
+          backgroundColor: '#fff',
+          border: '1px solid #ccc',
+          borderRadius: '4px',
+          padding: '10px',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
         }}
       >
-        {userName?.charAt(0)}
+        <p>Logged in as: {userName}</p>
+        <p>
+          <a href="/profile">Profile</a>
+        </p>
+        <p>
+          <a href="/wallet">Wallet</a>
+        </p>
       </div>
-
-      {showFullUserName && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '100%',
-            right: '0',
-            backgroundColor: '#fff',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-            padding: '10px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-          }}
-        >
-          <p>Logged in as: {userName}</p>
-          <p>
-            <a href="/profile">Profile</a>
-          </p>
-        </div>
-      )}
+    )}
+  </div>
+) : user?.UserDoc?._id ? ( // Handle user?.UserDoc?._id here
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={toggleUserNameDisplay}
+  >
+    <div
+      style={{
+        width: '40px',
+        height: '40px',
+        backgroundColor: '#606080',
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: '18px',
+      }}
+    >
+      {userName?.charAt(0)}
     </div>
-  )}
+    {showFullUserName && (
+      <div
+        style={{
+          position: 'absolute',
+          top: '100%',
+          right: '0',
+          backgroundColor: '#fff',
+          border: '1px solid #ccc',
+          borderRadius: '4px',
+          padding: '10px',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <p>Logged in as: {userName}</p>
+        <p>
+          <a href="/profile">Profile</a>
+        </p>
+        <p>
+          <a href="/wallet">Wallet</a>
+        </p>
+      </div>
+    )}
+  </div>
+) : null}
+
               </>
             ) : (
               <MDBNavbarItem>

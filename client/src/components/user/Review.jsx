@@ -38,7 +38,7 @@ export default function Review({ packageid, ownerid }) {
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant="outlined" style={{ backgroundColor: 'yellow', color: 'black', border: 'none' }} onClick={handleClickOpen}>
                 Add Review
             </Button>
             <Dialog open={open} onClose={handleClose}>

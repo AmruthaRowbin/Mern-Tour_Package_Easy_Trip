@@ -89,7 +89,7 @@ const UserLogin = () => {
                         </div>
 
                         <div className='col-12'>
-                            <MDBBtn style={{ width: "100%" }} className='mt-2'>
+                            <MDBBtn style={{ width: "100%", backgroundColor: "orangered", color: "#fff" }} className='mt-2'>
                                 {
                                     loading && (
                                         <MDBSpinner

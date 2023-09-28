@@ -49,14 +49,14 @@ export default function TourCancel({ bookingid ,onCancellationSuccess }) {
           onCancellationSuccess(response.data);
         } catch (error) {
           console.log(error.response?.data, "error.response?.data");
-          notify(error.response?.data || "An error occurred");
+          
         }
         handleClose();
       };
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant="outlined" style={{ backgroundColor: 'red', color: 'white', border: 'none' }} onClick={handleClickOpen}>
                 Cancel Tour
             </Button>
             <Dialog open={open} onClose={handleClose}>

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import './userdatatable.scss'; 
 import { toast } from "react-toastify"
-import { adminApprovalagent, adminBlockagent, adminUnBlockagent, fetchAdminAgents } from '../../redux/features/adminSlice';
+import { adminApprovalagent, adminBlockagent, adminNotApprovalagent, adminUnBlockagent, fetchAdminAgents } from '../../redux/features/adminSlice';
 
 function AgentDatatable() {
   const [blockStatus, setBlockStatus] = useState(JSON.parse(localStorage.getItem('blockStatus')) || {});
@@ -69,6 +69,9 @@ function AgentDatatable() {
         if(isApproved){
           dispatch(adminApprovalagent({email:agent.email,toast}))
         }
+        else{
+          dispatch(adminNotApprovalagent({email:agent.email,toast}))
+        }
         localStorage.setItem('getagentapprovedprofile', JSON.stringify( newApprovalStatus));
        }
 
@@ -79,7 +82,7 @@ function AgentDatatable() {
          {isApproved ? (
             <span className='approved-label'> Approved</span>
          ) :(
-          <span className='not-approved-label'>Not Approved</span>
+          <span className='not-approved-label'>Rejected</span>
          )
 
          }
